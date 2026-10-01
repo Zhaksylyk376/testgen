@@ -9,7 +9,7 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.7
-      - key: ANTHROPIC_MODEL
-        value: claude-haiku-4-5
-      - key: ANTHROPIC_API_KEY
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      - key: GEMINI_API_KEY
         sync: false

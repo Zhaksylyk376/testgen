@@ -1,9 +1,10 @@
 import json
 import os
 import re
-import anthropic
+from google import genai
+from google.genai import types
 
-MODEL = os.getenv("ANTHROPIC_MODEL", "claude-opus-4-7")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
 LANG_INSTRUCTIONS = {
     "kz": "Барлық сұрақтар мен жауаптарды ТЕК ҚАЗАҚ тілінде жаз.",
@@ -17,11 +18,11 @@ SYSTEM_PROMPT = (
 )
 
 
-def _client() -> anthropic.Anthropic:
-    key = os.getenv("ANTHROPIC_API_KEY")
+def _client() -> genai.Client:
+    key = os.getenv("GEMINI_API_KEY")
     if not key:
-        raise RuntimeError("ANTHROPIC_API_KEY не задан. Создай .env и укажи ключ с console.anthropic.com")
-    return anthropic.Anthropic(api_key=key)
+        raise RuntimeError("GEMINI_API_KEY не задан. Получи ключ на https://aistudio.google.com/apikey")
+    return genai.Client(api_key=key)
 
 
 def _build_prompt(topic_name: str, content: str, lang: str, count: int) -> str:
@@ -83,19 +84,17 @@ def generate_questions(topic_name: str, content: str, lang: str = "kz", count: i
     client = _client()
     prompt = _build_prompt(topic_name, content, lang, count)
 
-    with client.messages.stream(
+    response = client.models.generate_content(
         model=MODEL,
-        max_tokens=16000,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": prompt}],
-    ) as stream:
-        message = stream.get_final_message()
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            temperature=0.4,
+            max_output_tokens=8000,
+        ),
+    )
 
-    raw = ""
-    for block in message.content:
-        if block.type == "text":
-            raw += block.text
-
+    raw = response.text or ""
     questions = _extract_json(raw)
 
     cleaned = []
