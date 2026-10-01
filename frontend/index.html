@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="kz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TestGen — AI тесты</title>
+<link rel="stylesheet" href="/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="brand" onclick="goHome()">
+    <span class="logo">TG</span>
+    <span data-i18n="brand">TestGen</span>
+  </div>
+  <div class="lang-switch">
+    <button onclick="setLang('kz')" id="btn-kz">KZ</button>
+    <button onclick="setLang('ru')" id="btn-ru">RU</button>
+    <button onclick="setLang('en')" id="btn-en">EN</button>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="view-home" class="view">
+    <h1 data-i18n="home_title">AI жасаған тест қабырғасы</h1>
+    <p class="sub" data-i18n="home_sub">Файл жүкте — AI тақырып бойынша 15 сұрақтан жасайды</p>
+
+    <div class="card upload-card">
+      <h2 data-i18n="upload_title">Файл жүктеу</h2>
+      <input type="file" id="file-input" accept=".docx,.pdf,.txt,.md" />
+      <input type="text" id="title-input" placeholder="" />
+      <div class="row">
+        <label data-i18n="language">Тіл:</label>
+        <select id="lang-select">
+          <option value="kz">Қазақша</option>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <button class="primary" onclick="uploadFile()" id="upload-btn" data-i18n="upload_btn">Жүктеу</button>
+      <div id="upload-status" class="status"></div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="existing_tests">Бұрын жүктелген тесттер</h2>
+      <div id="tests-list" class="tests-list"></div>
+    </div>
+  </section>
+
+  <!-- TEST DETAIL -->
+  <section id="view-test" class="view hidden">
+    <button class="back" onclick="goHome()">← <span data-i18n="back">Артқа</span></button>
+    <h1 id="test-title"></h1>
+    <div class="row">
+      <button class="ghost" onclick="showResults()" data-i18n="view_results">Нәтижелер</button>
+      <button class="danger" onclick="deleteTest()" data-i18n="delete">Жою</button>
+    </div>
+    <h2 data-i18n="topics">Тақырыптар</h2>
+    <div id="topics-list" class="topics-list"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="view-quiz" class="view hidden">
+    <button class="back" onclick="backToTest()">← <span data-i18n="back">Артқа</span></button>
+    <h1 id="quiz-title"></h1>
+    <div class="card">
+      <label data-i18n="your_name">Атыңыз:</label>
+      <input type="text" id="user-name" placeholder="" />
+    </div>
+    <div id="questions-container"></div>
+    <button class="primary big" onclick="submitQuiz()" data-i18n="submit">Жауаптарды тапсыру</button>
+  </section>
+
+  <!-- RESULT -->
+  <section id="view-result" class="view hidden">
+    <button class="back" onclick="backToTest()">← <span data-i18n="back">Артқа</span></button>
+    <h1 data-i18n="your_result">Нәтижеңіз</h1>
+    <div class="score-big" id="score-big"></div>
+    <div id="result-details"></div>
+  </section>
+
+  <!-- RESULTS LIST + CHARTS -->
+  <section id="view-results" class="view hidden">
+    <button class="back" onclick="backToTest()">← <span data-i18n="back">Артқа</span></button>
+    <h1 data-i18n="all_results">Барлық нәтижелер</h1>
+    <div class="charts-grid">
+      <div class="card"><canvas id="chart-scores"></canvas></div>
+      <div class="card"><canvas id="chart-topics"></canvas></div>
+    </div>
+    <div class="card">
+      <h2 data-i18n="participants">Қатысушылар</h2>
+      <table id="results-table" class="results-table"></table>
+    </div>
+  </section>
+</main>
+
+<script src="/i18n.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
