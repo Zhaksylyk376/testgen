@@ -4,7 +4,7 @@ import re
 from google import genai
 from google.genai import types
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-lite-latest")
 
 LANG_INSTRUCTIONS = {
     "kz": "Барлық сұрақтар мен жауаптарды ТЕК ҚАЗАҚ тілінде жаз.",
