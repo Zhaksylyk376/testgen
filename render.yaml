@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: testgen
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: ANTHROPIC_MODEL
+        value: claude-haiku-4-5
+      - key: ANTHROPIC_API_KEY
+        sync: false

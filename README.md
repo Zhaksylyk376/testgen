@@ -43,6 +43,17 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 
 Открой http://localhost:8000
 
+## Деплой на Render (бесплатно)
+
+1. Зарегистрируйся на https://render.com через GitHub
+2. **New** → **Blueprint** → выбери репозиторий `testgen`
+3. Render найдёт `render.yaml` и предложит создать сервис
+4. В поле `ANTHROPIC_API_KEY` вставь свой ключ с console.anthropic.com
+5. **Apply** — через 2-3 минуты сайт будет на `https://testgen-xxxx.onrender.com`
+
+> ⚠️ На free-плане сервер засыпает после 15 мин бездействия — первая загрузка после паузы ~30 сек.
+> ⚠️ База SQLite на free-плане сбрасывается при редеплое. Для хранения тестов надолго — подключи Render PostgreSQL или смени план.
+
 ## Как пользоваться
 
 1. **Загрузить файл** → выбрать язык → жмёшь "Загрузить"
